@@ -1,0 +1,190 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300&display=swap');
+
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+:root {
+    --green: #00bfa6;
+    --cardColor: white;
+    --subtitleColor: gray;
+    --error: red;
+}
+
+.carousel_flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+
+#carousel001 {
+    width: 40%;
+    overflow: hidden;
+    /* border: .1rem solid var(--subtitleColor); */
+    border-radius: .4rem;
+};
+
+#carousel001_bottom_party {}
+
+#carousel001_main_image {
+    width: 100%;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+#carousel001_image_list {
+    overflow: hidden;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+#carousel001_image_list .carousel001_img:last-child {
+    margin-right: 0rem;
+}
+#carousel001_image_list .carousel001_img:first-child {
+    margin-left: 0rem;
+}
+
+i.fas-croller {
+    position: absolute;
+    cursor: pointer;
+    padding: .4rem;
+    border-radius: 50%;
+    border: .1rem solid var(--subtitleColor);
+    background-color: white;
+}
+i.fas-croller:hover {
+    animation: NavigatorArrow .1s ease-in-out both;
+}
+.fas-croller.fa-arrow-left {
+    left: 0.3rem;
+}
+.fas-croller.fa-arrow-right {
+    right: 0.3rem;
+}
+
+.carousel001_img {
+    border-radius: .25rem;
+    cursor: pointer;
+    margin-left: .35rem;
+    object-fit: cover;
+}
+
+.carousel001_img, .add-file-component {
+    min-width: 10rem;
+    height: 6rem;
+}
+
+
+/* ========================================================= */
+
+.add-file-component {
+    margin-left: 3rem;
+    cursor: pointer;
+    background-color: var(--green);
+    color: var(--cardColor);
+    border-radius: 0.3rem;
+    padding: 0.3rem;
+}
+.add-file-component div:first-child {
+    border: 0.12rem dotted var(--cardColor);
+    height: 100%;
+}
+.add-file-component i {
+    font-size: 1.2rem;
+    /* color: var(--green); */
+    margin-right: 0.5rem;
+}
+
+/* ====================================================== */
+#carousel001_top_party {
+    position: relative;
+}
+#carousel001_action {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.1rem;
+    padding: .4rem;
+    border-radius: .5rem;
+    justify-content: space-between;
+    visibility: hidden;
+}
+#carousel001_top_party:hover #carousel001_action {
+    visibility: visible;
+}
+
+/* =========================================================== */
+.d-button {
+    cursor: pointer;
+    position: relative;
+    justify-content: space-between;
+    border: 0rem;
+    border-radius: .17rem;
+}
+.d-button:hover {
+    opacity: .8;
+    /* background-color: rgba(0, 0, 0, 0.7) !important; */
+}
+.d-button.primary {
+    background-color: var(--green);
+    color: var(--cardColor);
+    padding: .5rem;
+}
+.d-button.danger {
+    background-color: var(--error);
+    color: var(--cardColor);
+    padding: .5rem;
+}
+.d-button i {
+    margin-left: .5rem;
+    padding-left: .5rem;
+    border-left: 0.1rem solid var(--cardColor) !important;
+}
+.d-button.d-button-load::after {
+    position: absolute;
+    top: 30%;
+    left: 40%;
+
+    content: "";
+    padding: .3rem;
+    border-radius: 50%;
+    border: .2rem solid transparent;
+    border-right-color: var(--cardColor);
+    animation: dButton 700ms linear infinite;
+}
+.d-button.d-button-load::before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom:0;
+
+    content: "";
+    background-color: rgba(0, 0, 0, 0.35);
+}
+@keyframes dButton {
+    to {
+        transform: rotate(360deg);
+    }
+}
+/* ================================================================= */
+
+@keyframes NavigatorArrow {
+    from {
+        transform: translateX(10%);
+    }
+    to {
+        border: .1rem solid var(--green);
+        background-color: var(--green);
+        color: var(--cardColor);
+        transform: translateX(0%);
+    }
+}
+
