@@ -77,30 +77,31 @@ function Button({ type = "primary", text = "Primary", icon = "fas fa-download", 
         e.stopPropagation();
         if (!load) {
             setLoad();
-            setTimeout(() => {
-                onClick().finally(() => setLoad());
-            }, 3000);
+            onClick().finally(() => setLoad());
+            // setTimeout(() => {
+            // }, 3000);
         };
     }}>{text} <i className={icon}></i> </button>
 }
 
 
 function AddFile({ pickerImage = () => { } }) {
-    
+
+    const [ load, setLoad ] = React.useState();
+    const handlerLoad = () => setDrag(state => !state);
+
     const [ drag, setDrag ] = React.useState();
     const handlerDrag = () => setDrag(state => !state);
 
     const inputRef = React.useRef();
 
     return <div
-        
-        className="add-file-component"
+        className={`add-file-component ${load && 'load'}`}
         
         onClick={(e) => {
             e.stopPropagation();
             inputRef.current.click();
         }}
-
         
         onDrop={(e) => {
             e.preventDefault();
@@ -111,19 +112,14 @@ function AddFile({ pickerImage = () => { } }) {
         // onDragEnter = {handlerDrag}
 
         // onDragLeave = {handlerDrag}
-        
         >
         <div className="carousel_flex">
-            <input type="file" style={{ display: "none" }} ref={inputRef} onChange={pickerImage} />
-            {
-                !drag ?
-                <div className="carousel_flex">
-                    <i className="fas fa-plus"></i>
-                    <p>Select An Image</p>
-                </div>
-                :
-                <p>Add or Drag A File</p>
-            }
+            <input type="file" style={{ display: "none" }} ref={inputRef} onChange={(e) => {
+                handlerLoad();
+                pickerImage(e).finally(() => handlerLoad());
+            }} />
+            <i className="fas fa-cloud-upload-alt"></i>
+            <p>Add An Image</p>
         </div>
     </div>;
 };
@@ -183,26 +179,14 @@ function Carousel({ data = [], height, min_length = 3, addImage, deleteImage, ad
     const InitData = { List: data, currentImage: data[0] || {} };
     const selectFunction = (payload) => dispatch({ type: EventList.SELECT_IMAGE, payload })
 
-    const downloadFunction = async () => {
-
-        let currentImage = {
-            id: 1323,
-            Url: "https://images.unsplash.com/photo-1521245585918-35fd32bf376f?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=900&ixid=MnwxfDB8MXxyYW5kb218MHx8YmVhY2h8fHx8fHwxNjU4MzUzNzg1&ixlib=rb-1.2.1&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1600"
-        }
-
-        fetch(currentImage.Url, {
-            // mode: 'cors'
-        }).then(r => r.blob()).then(data_blob => {
+    const downloadFunction = async () => fetch(currentImage.Url).then(r => r.blob()).then(data_blob => {
             const imageURL = URL.createObjectURL(data_blob);
 
             const link = document.createElement('a');
             link.href = imageURL;
-            // link.download = currentImage.Url.split('/').pop();
-            link.download = 'try.jpeg';
+            link.download = currentImage.Url.split('/').pop();
             link.click();
-        });
-
-    };
+    });
 
     const ScrollListRef = React.useRef();
     const MainImageRef = React.useRef();
@@ -240,9 +224,7 @@ function Carousel({ data = [], height, min_length = 3, addImage, deleteImage, ad
             </i>
             <div id="carousel001_image_list" className="carousel_flex" style={{ "scrollBehavior": "smooth" }} ref={ScrollListRef}>
                 {
-                    !addImage && <AddFile pickerImage={({ target }) => {
-                        addImage(target.files).then(payload => payload && dispatch({ type: EventList.ADD_IMAGE, payload }))
-                    }} />
+                    !addImage && <AddFile pickerImage={async ({ target }) => addImage(target.files).then(payload => payload && dispatch({ type: EventList.ADD_IMAGE, payload }))} />
                 }
                 {
                     List.map(img => <img className="carousel001_img"

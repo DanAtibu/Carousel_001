@@ -23,7 +23,6 @@
     flex-wrap: nowrap;
 }
 
-
 #carousel001 {
     width: 40%;
     overflow: hidden;
@@ -53,6 +52,7 @@
 }
 
 i.fas-croller {
+    z-index: 150;
     position: absolute;
     cursor: pointer;
     padding: .4rem;
@@ -75,35 +75,51 @@ i.fas-croller:hover {
     cursor: pointer;
     margin-left: .35rem;
     object-fit: cover;
+    transition: all 200ms ease-in-out;
 }
-
+.carousel001_img:hover {
+    opacity: .7;
+}
 .carousel001_img, .add-file-component {
     min-width: 10rem;
     height: 6rem;
 }
 
-
 /* ========================================================= */
 
 .add-file-component {
+    overflow: hidden;
     margin-left: 3rem;
     cursor: pointer;
     background-color: var(--green);
     color: var(--cardColor);
     border-radius: 0.3rem;
     padding: 0.3rem;
+    position: relative;
 }
 .add-file-component div:first-child {
     border: 0.12rem dotted var(--cardColor);
     height: 100%;
+    flex-direction: column;
 }
 .add-file-component i {
     font-size: 1.2rem;
     /* color: var(--green); */
     margin-right: 0.5rem;
 }
+.add-file-component.load div:first-child i {
+    font-size: 1.5rem;
+    animation: AddFileUploadingAnimation 1s linear infinite;
+}
+@keyframes AddFileUploadingAnimation {
+    to {
+        opacity: 0;
+        transform: translateY(-0.5rem);
+    }
+}
 
 /* ====================================================== */
+
 #carousel001_top_party {
     position: relative;
 }
